@@ -92,20 +92,20 @@ function AddBtn(){
   }
 }
 
-var t = Date.now();
- 
-function sleep(d){
-	while(Date.now - t <= d);
-} 
-sleep(5000);
-console.log("------- start init ---------");
-var start=false;
-var freq=200;
-freq=sessionStorage.getItem("freq");
-if(freq==""){freq=200};
-setInterval("CheckClick()",100);
-AddBtn();
-Initlabel();
+function initAutoclick(){
+	console.log("------- start initAutoclick ---------");
+	var start=false;
+	var freq=200;
+	freq=sessionStorage.getItem("freq");
+	if(freq==""){freq=200};
+	setInterval("CheckClick()",100);
+	AddBtn();
+	Initlabel();
+}
+
+setTimeout(initAutoclick, 10000)
+
+
 
 
 
