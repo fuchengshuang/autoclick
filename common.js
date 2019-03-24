@@ -97,19 +97,15 @@ var t = Date.now();
 function sleep(d){
 	while(Date.now - t <= d);
 } 
-
-window.onload=function (){
-	console.log("----window.onload----");
-	sleep(500);
-	var start=false;
-	var freq=200;
-	freq=sessionStorage.getItem("freq");
-	if(freq==""){freq=200};
-	setInterval("CheckClick()",100);
-	AddBtn();
-	Initlabel();
-}
-
+sleep(1000);
+console.log("------- start init ---------");
+var start=false;
+var freq=200;
+freq=sessionStorage.getItem("freq");
+if(freq==""){freq=200};
+setInterval("CheckClick()",100);
+AddBtn();
+Initlabel();
 
 
 
