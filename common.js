@@ -97,7 +97,7 @@ var t = Date.now();
 function sleep(d){
 	while(Date.now - t <= d);
 } 
-sleep(1000);
+sleep(5000);
 console.log("------- start init ---------");
 var start=false;
 var freq=200;
