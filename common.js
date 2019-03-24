@@ -103,7 +103,7 @@ function initAutoclick(){
 	Initlabel();
 }
 
-setTimeout(initAutoclick, 10000)
+setTimeout(initAutoclick, 3000)
 
 
 
