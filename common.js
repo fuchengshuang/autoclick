@@ -103,8 +103,9 @@ function initAutoclick(){
 	AddBtn();
 	Initlabel();
 }
-
-setTimeout(initAutoclick, 2000)
+console.log(window.location.pathname);
+console.log(window.location.search);
+setTimeout(initAutoclick, 1000)
 
 
 
