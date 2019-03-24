@@ -6,10 +6,8 @@ var pathName=window.location.pathname
 
 function isNewPt(){
 	if(pathName == "/ngocp/module/agent/project_detail.html"){
-		console.log("---新平台---");
 		return true;
 	}
-	console.log("---老平台---");
 	return false;
 }
 
