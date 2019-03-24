@@ -84,6 +84,7 @@ function AddBtn(){
    abtn.setAttribute("class","btn btn-yellow btn-mid");
    abtn.setAttribute("id","waleson_auto_click");
    abtn.setAttribute("href", "javascript:StartAuto()");
+   abtn.setAttribute("style", "margin-top:8px");
 
    //gwaleson.appendChild(br)
    gwaleson.appendChild(abtn); 
@@ -103,7 +104,7 @@ function initAutoclick(){
 	Initlabel();
 }
 
-setTimeout(initAutoclick, 3000)
+setTimeout(initAutoclick, 2000)
 
 
 
