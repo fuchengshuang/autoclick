@@ -2,6 +2,16 @@
 console.log("commjs..starting.");
 var walesonc=0;
 var allcc=0;
+var pathName=window.location.pathname
+
+function isNewPt(){
+	if(pathName == "/ngocp/module/agent/project_detail.html"){
+		console.log("---新平台---");
+		return true;
+	}
+	console.log("---老平台---");
+	return false;
+}
 
 function Initlabel(){
   console.log("Initlabel...");
@@ -56,7 +66,12 @@ function CheckClick()
           if (allcc>=freq){
                if($(".J_grab_single").hasClass("j-ishost")){ 
                    wbtn.innerHTML="主项目自动抢单"+walesonc+"次";
-                   grabSingle(ProDet.busId,"","",true);
+				   if(isNewPt()){
+						grabSingle(ProDet.busId,null,"isCsb");
+				   }else{
+					    grabSingle(ProDet.busId,"","",true);
+				   }
+                   
                }else{
                    wbtn.innerHTML="子项目自动抢单"+walesonc+"次";
                    grabSingle(ProDet.busId);
@@ -84,8 +99,9 @@ function AddBtn(){
    abtn.setAttribute("class","btn btn-yellow btn-mid");
    abtn.setAttribute("id","waleson_auto_click");
    abtn.setAttribute("href", "javascript:StartAuto()");
-   abtn.setAttribute("style", "margin-top:8px");
-
+   if(isNewPt()){
+	   abtn.setAttribute("style", "margin-top:8px");
+   }
    //gwaleson.appendChild(br)
    gwaleson.appendChild(abtn); 
   }else{
@@ -103,9 +119,13 @@ function initAutoclick(){
 	AddBtn();
 	Initlabel();
 }
-console.log(window.location.pathname);
-console.log(window.location.search);
-setTimeout(initAutoclick, 1000)
+
+if(isNewPt()){
+	setTimeout(initAutoclick, 1000);
+}else{
+	initAutoclick();
+}
+
 
 
 
