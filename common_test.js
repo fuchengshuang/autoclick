@@ -49,8 +49,9 @@ if(platformType > 0) {
 
 	// 时间倒计时函数
 	function exTimeCountDown() {
-		// ProDet.reserObj.reserveTime
-		var totalrRmain = exCompareTime(ProDet.reserObj.releaseTime, 2);
+		// 
+		var totalrRmain = exCompareTime(ProDet.reserObj.releaseTime, ProDet.reserObj.reserveTime);
+		console.log("exTimeCountDown.totalrRmain:"+totalrRmain);
 		// 如果已经可以抢单(小于1秒抢单)
 		if(totalrRmain < 1000) {
 			placeOrder();
@@ -124,7 +125,7 @@ if(platformType > 0) {
 					if(allcc >= freq) {
 						if($(".J_grab_single").hasClass("j-ishost")) {
 							//wbtn.innerHTML = "主项目自动抢单" + walesonc + "次";
-							setBtnText(wbtn, "主项目自动抢单" + walesonc + "次");
+							setBtnText(wbtn, "主项目抢单" + walesonc + "次");
 							if(platformType == 2) {
 								//grabSingle(ProDet.busId, null, "isCsb");
 							} else {
@@ -133,7 +134,7 @@ if(platformType > 0) {
 
 						} else {
 							//wbtn.innerHTML = "子项目自动抢单" + walesonc + "次";
-							setBtnText(wbtn, "子项目自动抢单" + walesonc + "次");
+							setBtnText(wbtn, "子项目抢单" + walesonc + "次");
 							//grabSingle(ProDet.busId);
 						}
 
