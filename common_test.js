@@ -17,7 +17,7 @@ if(platformType > 0) {
 	var allcc = 0;
 	var freq = 1000;
 	var exEndTime = 0;
-	var start = false;
+	var start = 0; //0正常 1定时2启动
 	//本地时间和服务器 误差值
 	console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
 	var timeErrRange = 500;
@@ -58,49 +58,50 @@ if(platformType > 0) {
 	 * @param reserveTime 预留时间
 	 */
 	function exCompareTime() {
-		if(exEndTime == null || exEndTime == '0'){
+		if(exEndTime == null || exEndTime == '0') {
 			return 0;
 		}
 		var spareSec = exEndTime - getCurTime();
-		console.log("开始抢单时间:"+exEndTime+",倒计时:"+spareSec);
+		console.log("开始抢单时间:" + exEndTime + ",倒计时:" + spareSec);
 		return spareSec;
-		
+
 	}
 
 	// 时间倒计时函数
 	function exTimeCountDown() {
-		// 
-		var totalrRmain = exCompareTime();
-		// 如果已经可以抢单(小于1秒抢单)
-		if(totalrRmain < 1000) {
-			placeOrder();
-		} else {
-			if(totalrRmain > 1000) {
+		start = sessionStorage.getItem("ClickStart");
+		if(start == 1) {
+			var totalrRmain = exCompareTime();
+			// 如果已经可以抢单(小于1秒抢单)
+			if(totalrRmain < 1000) {
+				placeOrder();
+			} else {
 				setTimeout(exTimeCountDown, 1000);
+				setBtnText(document.getElementById("waleson_auto_click"), ProDet.secsToHMS(totalrRmain));
 			}
-			setBtnText(document.getElementById("waleson_auto_click"), ProDet.secsToHMS(totalrRmain));
 		}
+
 	}
 
-//	function getBasicInfo() { //  /data/homeData.json
-//		var linkHref = "/front/agent/homeOutBoundBusiness!getOutboundDealInfoData?uid=home0005";
-//		Util.ajax.postJson(linkHref, {
-//			"campaignId": ProDet.busId,
-//			"mainCampaignId": hostId
-//		}, function(result) {
-//			console.log("result:" + result)
-//			if(result.returnCode != 0) {
-//				return;
-//			}
-//		});
-//	}
+	//	function getBasicInfo() { //  /data/homeData.json
+	//		var linkHref = "/front/agent/homeOutBoundBusiness!getOutboundDealInfoData?uid=home0005";
+	//		Util.ajax.postJson(linkHref, {
+	//			"campaignId": ProDet.busId,
+	//			"mainCampaignId": hostId
+	//		}, function(result) {
+	//			console.log("result:" + result)
+	//			if(result.returnCode != 0) {
+	//				return;
+	//			}
+	//		});
+	//	}
 
 	function Initlabel() {
 		console.log("Initlabel...");
 		start = sessionStorage.getItem("ClickStart");
 		walesonAddBtn = document.getElementById("waleson_auto_click");
 		if(walesonAddBtn != null) {
-			if(start == "true") {
+			if(start == "2") {
 				walesonAddBtn.innerHTML = "已开启自动抢单";
 			} else {
 				walesonAddBtn.innerHTML = "开始自动抢单";
@@ -111,7 +112,7 @@ if(platformType > 0) {
 	}
 
 	function placeOrder() {
-		sessionStorage.setItem("ClickStart", "true");
+		sessionStorage.setItem("ClickStart", "2");
 		setBtnText(walesonAddBtn, "已开启自动抢单");
 	}
 
@@ -121,8 +122,8 @@ if(platformType > 0) {
 			//自动定时抢单 1判断是否是倒计时抢单 算出服务器与本地误差时间
 
 			start = sessionStorage.getItem("ClickStart");
-			if(start == "true") {
-				sessionStorage.setItem("ClickStart", "false");
+			if(start == "2" || start == "1") {
+				sessionStorage.setItem("ClickStart", "0");
 				//walesonAddBtn.innerHTML = "已停止自动抢单";
 				setBtnText(walesonAddBtn, "已停止自动抢单");
 			} else {
@@ -130,7 +131,7 @@ if(platformType > 0) {
 				console.log("--ccc--" + ccc);
 				if(ccc != null) {
 					var arrs = ccc.split(",")
-					if(arrs == null || arrs.length > 2){
+					if(arrs == null || arrs.length > 2) {
 						alert("错误:参数格式不正确")
 						return;
 					}
@@ -138,8 +139,8 @@ if(platformType > 0) {
 					if(freq < 50) {
 						freq = 50
 					};
-					if(arrs.length>1){
-						exEndTime = Util.date.str2Date(Util.date.getDate(null)+" "+arrs[1]+":00");
+					if(arrs.length > 1) {
+						exEndTime = Util.date.str2Date(Util.date.getDate(null) + " " + arrs[1] + ":00");
 					}
 					sessionStorage.setItem("freq", freq);
 					//walesonAddBtn.innerHTML = "已开启自动抢单";
@@ -153,7 +154,7 @@ if(platformType > 0) {
 
 	function CheckClick() {
 		start = sessionStorage.getItem("ClickStart");
-		if(start == "true") {
+		if(start == "2") {
 			mydate = new Date();
 			timeok = false;
 			h = mydate.getHours();
