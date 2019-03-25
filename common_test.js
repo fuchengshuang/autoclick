@@ -15,7 +15,11 @@ if(pathName == "/module/agent/project_detail.html") {
 if(platformType > 0) {
 	var walesonc = 0;
 	var allcc = 0;
-
+	
+	function setBtnText(btn,text){
+		btn.value = text;
+	}
+	
 	function Initlabel() {
 		console.log("Initlabel...");
 		start = sessionStorage.getItem("ClickStart");
@@ -37,7 +41,8 @@ if(platformType > 0) {
 			start = sessionStorage.getItem("ClickStart");
 			if(start == "true") {
 				sessionStorage.setItem("ClickStart", "false");
-				walesonAddBtn.innerHTML = "已停止自动抢单";
+				//walesonAddBtn.innerHTML = "已停止自动抢单";
+				setBtnText(walesonAddBtn,"已停止自动抢单");
 			} else {
 				ccc = prompt("请输入频率s", "0.2");
 				if(ccc != null) {
@@ -47,7 +52,8 @@ if(platformType > 0) {
 					};
 					sessionStorage.setItem("freq", freq);
 					sessionStorage.setItem("ClickStart", "true");
-					walesonAddBtn.innerHTML = "已开启自动抢单";
+					setBtnText(walesonAddBtn,"已开启自动抢单");
+					//walesonAddBtn.innerHTML = "已开启自动抢单";
 				}
 			};
 		} else {
@@ -68,7 +74,8 @@ if(platformType > 0) {
 					allcc += 100;
 					if(allcc >= freq) {
 						if($(".J_grab_single").hasClass("j-ishost")) {
-							wbtn.innerHTML = "主项目自动抢单" + walesonc + "次";
+							//wbtn.innerHTML = "主项目自动抢单" + walesonc + "次";
+							setBtnText(wbtn,"主项目自动抢单" + walesonc + "次");
 							if(platformType == 2) {
 								grabSingle(ProDet.busId, null, "isCsb");
 							} else {
@@ -76,7 +83,8 @@ if(platformType > 0) {
 							}
 
 						} else {
-							wbtn.innerHTML = "子项目自动抢单" + walesonc + "次";
+							//wbtn.innerHTML = "子项目自动抢单" + walesonc + "次";
+							setBtnText(wbtn,"子项目自动抢单" + walesonc + "次");
 							grabSingle(ProDet.busId);
 						}
 
@@ -102,6 +110,7 @@ if(platformType > 0) {
 			abtn.setAttribute("class", "btn btn-yellow btn-mid");
 			abtn.setAttribute("id", "waleson_auto_click");
 			abtn.setAttribute("type", "button");
+			abtn.setAttribute("value", "开启自动抢单");
 			abtn.setAttribute("onclick", "javascript:StartAuto()");
 			if(platformType == 2) {
 				abtn.setAttribute("style", "margin-top:8px");
