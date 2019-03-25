@@ -97,11 +97,11 @@ if(platformType > 0) {
 		if(gwaleson) {
 			console.log("createElement button..开启自动抢单.");
 			br = document.createElement("br")
-			abtn = document.createElement("a");
+			abtn = document.createElement("input");
 			abtn.innerHTML = "开启自动抢单";
 			abtn.setAttribute("class", "btn btn-yellow btn-mid");
 			abtn.setAttribute("id", "waleson_auto_click");
-			abtn.setAttribute("href", "javascript:StartAuto()");
+			abtn.setAttribute("onclick", "javascript:StartAuto()");
 			if(platformType == 2) {
 				abtn.setAttribute("style", "margin-top:8px");
 			}
@@ -123,6 +123,8 @@ if(platformType > 0) {
 		setInterval("CheckClick()", 100);
 		AddBtn();
 		Initlabel();
+		console.log("spareSec:"+ProDet.reserObj.spareSec+",localTime:"+ProDet.reserObj.localTime+",releaseTime:"+ProDet.reserObj.releaseTime+",ProDet.reserObj.reserveTime:"+ProDet.reserObj.reserveTime);
+		
 	}
 
 	if(platformType == 2) {
