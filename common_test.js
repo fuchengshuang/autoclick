@@ -134,7 +134,7 @@ if(platformType > 0) {
 		AddBtn();
 		Initlabel();
 		console.log("spareSec:"+ProDet.reserObj.spareSec+",localTime:"+ProDet.reserObj.localTime+",releaseTime:"+ProDet.reserObj.releaseTime+",ProDet.reserObj.reserveTime:"+ProDet.reserObj.reserveTime);
-		
+		PProDet.btnIsEnable(ProDet.reserObj.$btn, false);
 	}
 
 	if(platformType == 2) {
