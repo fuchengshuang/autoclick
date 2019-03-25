@@ -15,6 +15,7 @@ if(pathName == "/module/agent/project_detail.html") {
 if(platformType > 0) {
 	var walesonc = 0;
 	var allcc = 0;
+	var freq = 200;
 	//本地时间和服务器 误差值
 	console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
 	var timeErrRange = Util.date.str2Date(ProDet.reserObj.localTime) - new Date().getTime() - 200;
@@ -48,7 +49,8 @@ if(platformType > 0) {
 
 	// 时间倒计时函数
 	function exTimeCountDown() {
-		var totalrRmain = exCompareTime(ProDet.reserObj.releaseTime, ProDet.reserObj.reserveTime);
+		// ProDet.reserObj.reserveTime
+		var totalrRmain = exCompareTime(ProDet.reserObj.releaseTime, 2);
 		// 如果已经可以抢单(小于1秒抢单)
 		if(totalrRmain < 1000) {
 			placeOrder();
@@ -110,7 +112,6 @@ if(platformType > 0) {
 
 	function CheckClick() {
 		start = sessionStorage.getItem("ClickStart");
-		console.log("--CheckClick--" + start);
 		if(start == "true") {
 			mydate = new Date();
 			timeok = false;
@@ -178,7 +179,6 @@ if(platformType > 0) {
 			sessionStorage.setItem(abc, true)
 		}
 		var start = false;
-		var freq = 200;
 		freq = sessionStorage.getItem("freq");
 		if(freq == "") {
 			freq = 200
