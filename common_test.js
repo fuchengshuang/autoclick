@@ -17,7 +17,7 @@ if(platformType > 0) {
 	var allcc = 0;
 	var freq = 1000;
 	var exEndTime = 0;
-	var start = 0; //0正常 1定时2启动
+	var start = "0"; //0正常 1定时2启动
 	//本地时间和服务器 误差值
 	console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
 	var timeErrRange = 500;
@@ -144,6 +144,7 @@ if(platformType > 0) {
 					}
 					sessionStorage.setItem("freq", freq);
 					//walesonAddBtn.innerHTML = "已开启自动抢单";
+					sessionStorage.setItem("ClickStart", "1");
 					exTimeCountDown();
 				}
 			};
