@@ -18,14 +18,17 @@ if(platformType > 0) {
 	var freq = 200;
 	//本地时间和服务器 误差值
 	console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
-	var timeErrRange = Util.date.str2Date(ProDet.reserObj.localTime) - new Date().getTime() - 200;
-
-	console.log("误差时间:" + timeErrRange);
-
+	var timeErrRange = 500;
+	if(ProDet.reserObj.localTime){
+		timeErrRange = Util.date.str2Date(ProDet.reserObj.localTime) - new Date().getTime() - 200;
+	}
+	
 	// 获取当前时间
 	function getCurTime() {
 		return new Date().getTime() + timeErrRange;
 	}
+	
+	console.log("误差时间:" + timeErrRange+",curT:"+getCurTime());
 
 	function setBtnText(btn, text) {
 		if(btn != null) {
