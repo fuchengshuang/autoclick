@@ -126,11 +126,11 @@ if(platformType > 0) {
 				//walesonAddBtn.innerHTML = "已停止自动抢单";
 				setBtnText(walesonAddBtn, "已停止自动抢单");
 			} else {
-				ccc = prompt("频率(秒),抢单时间", "1,13:50");
+				ccc = prompt("频率(秒),抢单时间", "1");
 				console.log("--ccc--" + ccc);
 				if(ccc != null) {
 					var arrs = ccc.split(",")
-					if(arrs == null || arrs.length != 2 || typeof(arrs[0]) == 'number'){
+					if(arrs == null || arrs.length > 2){
 						alert("错误:参数格式不正确")
 						return;
 					}
