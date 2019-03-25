@@ -101,6 +101,7 @@ if(platformType > 0) {
 			abtn.innerHTML = "开启自动抢单";
 			abtn.setAttribute("class", "btn btn-yellow btn-mid");
 			abtn.setAttribute("id", "waleson_auto_click");
+			abtn.setAttribute("type", "button");
 			abtn.setAttribute("onclick", "javascript:StartAuto()");
 			if(platformType == 2) {
 				abtn.setAttribute("style", "margin-top:8px");
