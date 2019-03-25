@@ -42,7 +42,8 @@ if(platformType > 0) {
 		if(releaseTime && reserveTime) {
 			var relTime = Util.date.str2Date(releaseTime),
 				relSec = reserveTime * 60 * 1000;
-			spareSec = relSec - (getCurTime() - relTime);
+			getCurTime();
+			spareSec = relSec - (-relTime);
 		}
 		return spareSec < 0 ? 0 : spareSec;
 	}
@@ -51,7 +52,7 @@ if(platformType > 0) {
 	function exTimeCountDown() {
 		// 
 		var totalrRmain = exCompareTime(ProDet.reserObj.releaseTime, ProDet.reserObj.reserveTime);
-		console.log("exTimeCountDown.totalrRmain:"+totalrRmain);
+		console.log("exTimeCountDown.totalrRmain:" + totalrRmain);
 		// 如果已经可以抢单(小于1秒抢单)
 		if(totalrRmain < 1000) {
 			placeOrder();
@@ -61,6 +62,16 @@ if(platformType > 0) {
 			}
 			setBtnText(document.getElementById("waleson_auto_click"), ProDet.secsToHMS(totalrRmain));
 		}
+	}
+
+	function getBasicInfo() { //  /data/homeData.json
+		var linkHref = "/front/agent/homeOutBoundBusiness!getOutboundDealInfoData?uid=home0005";
+		Util.ajax.postJson(linkHref, {
+			"campaignId": ProDet.busId,
+			"mainCampaignId": hostId
+		}, function(result) {
+			console.log("result:" + result)
+		});
 	}
 
 	function Initlabel() {
@@ -187,6 +198,7 @@ if(platformType > 0) {
 		setInterval("CheckClick()", 100);
 		AddBtn();
 		Initlabel();
+		getBasicInfo();
 	}
 
 	if(platformType == 2) {
