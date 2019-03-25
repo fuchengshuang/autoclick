@@ -22,7 +22,7 @@ if(platformType > 0) {
 	console.log("误差时间:" + timeErrRange);
 
 	// 获取当前时间
-	getCurTime: function() {
+	function getCurTime() {
 		return new Date().getTime() + timeErrRange;
 	}
 
@@ -36,7 +36,7 @@ if(platformType > 0) {
 	 * @param releaseTime 发布时间
 	 * @param reserveTime 预留时间
 	 */
-	exCompareTime: function(releaseTime, reserveTime) {
+	function exCompareTime(releaseTime, reserveTime) {
 		var spareSec = 0;
 		if(releaseTime && reserveTime) {
 			var relTime = Util.date.str2Date(releaseTime),
@@ -47,7 +47,7 @@ if(platformType > 0) {
 	}
 
 	// 时间倒计时函数
-	exTimeCountDown: function() {
+	function exTimeCountDown() {
 		var totalrRmain = exCompareTime(ProDet.reserObj.releaseTime, ProDet.reserObj.reserveTime);
 		// 如果已经可以抢单(小于1秒抢单)
 		if(totalrRmain < 1000) {
