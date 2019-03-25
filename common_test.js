@@ -15,7 +15,9 @@ if(pathName == "/module/agent/project_detail.html") {
 if(platformType > 0) {
 	var walesonc = 0;
 	var allcc = 0;
-	var freq = 200;
+	var freq = 1000;
+	var exEndTime = 0;
+	var start = false;
 	//本地时间和服务器 误差值
 	console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
 	var timeErrRange = 500;
@@ -55,22 +57,20 @@ if(platformType > 0) {
 	 * @param releaseTime 发布时间
 	 * @param reserveTime 预留时间
 	 */
-	function exCompareTime(releaseTime, reserveTime) {
-		var spareSec = 0;
-		if(releaseTime && reserveTime) {
-			var relTime = Util.date.str2Date(releaseTime),
-				relSec = reserveTime * 60 * 1000;
-			getCurTime();
-			spareSec = relSec - (-relTime);
+	function exCompareTime() {
+		if(exEndTime == null || exEndTime == '0'){
+			return 0;
 		}
-		return spareSec < 0 ? 0 : spareSec;
+		var spareSec = exEndTime - getCurTime();
+		console.log("开始抢单时间:"+exEndTime+",倒计时:"+spareSec);
+		return spareSec;
+		
 	}
 
 	// 时间倒计时函数
 	function exTimeCountDown() {
 		// 
-		var totalrRmain = exCompareTime(ProDet.reserObj.releaseTime, ProDet.reserObj.reserveTime);
-		console.log("exTimeCountDown.totalrRmain:" + totalrRmain);
+		var totalrRmain = exCompareTime();
 		// 如果已经可以抢单(小于1秒抢单)
 		if(totalrRmain < 1000) {
 			placeOrder();
@@ -126,13 +126,21 @@ if(platformType > 0) {
 				//walesonAddBtn.innerHTML = "已停止自动抢单";
 				setBtnText(walesonAddBtn, "已停止自动抢单");
 			} else {
-				ccc = prompt("请输入频率s", "0.2");
+				ccc = prompt("频率(秒),抢单时间", "1,13:50");
 				console.log("--ccc--" + ccc);
 				if(ccc != null) {
-					freq = ccc * 1000;
+					var arrs = ccc.split(",")
+					if(arrs == null || arrs.length != 2 || typeof(arrs[0]) == 'number'){
+						alert("错误:参数格式不正确")
+						return;
+					}
+					freq = arrs[0] * 1000;
 					if(freq < 50) {
 						freq = 50
 					};
+					if(arrs.length>1){
+						exEndTime = Util.date.str2Date(Util.date.getDate(null)+" "+arrs[1]+":00");
+					}
 					sessionStorage.setItem("freq", freq);
 					//walesonAddBtn.innerHTML = "已开启自动抢单";
 					exTimeCountDown();
@@ -206,15 +214,9 @@ if(platformType > 0) {
 
 	function initAutoclick() {
 		console.log("------- start initAutoclick ---------");
-		var abc = sessionStorage.getItem("abc");
-		console.log("abc:" + abc);
-		if(abc == null) {
-			sessionStorage.setItem(abc, true)
-		}
-		var start = false;
 		freq = sessionStorage.getItem("freq");
 		if(freq == "") {
-			freq = 200
+			freq = 1000
 		};
 		setInterval("CheckClick()", 100);
 		AddBtn();
