@@ -19,16 +19,31 @@ if(platformType > 0) {
 	//本地时间和服务器 误差值
 	console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
 	var timeErrRange = 500;
-	if(ProDet.reserObj.localTime){
+	if(ProDet.reserObj.localTime) {
 		timeErrRange = Util.date.str2Date(ProDet.reserObj.localTime) - new Date().getTime() - 200;
 	}
-	
+
+	function nowValid() {
+		var a = $('.pro-get-button-box a');
+		var nowValid = true;
+		if(a != null) {
+			for(var i = 0; i < a.length; i++) {　　
+				console.log("classList:" + a[i].classList);
+				if(a[i].classList.contains('btn-disabled') == true) {　　　　
+					nowValid = false;
+					break;
+				}
+			}
+		}
+		return nowValid;
+
+	}
 	// 获取当前时间
 	function getCurTime() {
 		return new Date().getTime() + timeErrRange;
 	}
-	
-	console.log("误差时间:" + timeErrRange+",curT:"+getCurTime());
+
+	console.log("误差时间:" + timeErrRange + ",curT:" + getCurTime());
 
 	function setBtnText(btn, text) {
 		if(btn != null) {
@@ -67,15 +82,18 @@ if(platformType > 0) {
 		}
 	}
 
-	function getBasicInfo() { //  /data/homeData.json
-		var linkHref = "/front/agent/homeOutBoundBusiness!getOutboundDealInfoData?uid=home0005";
-		Util.ajax.postJson(linkHref, {
-			"campaignId": ProDet.busId,
-			"mainCampaignId": hostId
-		}, function(result) {
-			console.log("result:" + result)
-		});
-	}
+//	function getBasicInfo() { //  /data/homeData.json
+//		var linkHref = "/front/agent/homeOutBoundBusiness!getOutboundDealInfoData?uid=home0005";
+//		Util.ajax.postJson(linkHref, {
+//			"campaignId": ProDet.busId,
+//			"mainCampaignId": hostId
+//		}, function(result) {
+//			console.log("result:" + result)
+//			if(result.returnCode != 0) {
+//				return;
+//			}
+//		});
+//	}
 
 	function Initlabel() {
 		console.log("Initlabel...");
@@ -201,7 +219,7 @@ if(platformType > 0) {
 		setInterval("CheckClick()", 100);
 		AddBtn();
 		Initlabel();
-		getBasicInfo();
+		console.log(nowValid());
 	}
 
 	if(platformType == 2) {
