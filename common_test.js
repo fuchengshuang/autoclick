@@ -169,15 +169,15 @@ if(platformType > 0) {
 							//wbtn.innerHTML = "主项目自动抢单" + walesonc + "次";
 							setBtnText(wbtn, "主项目抢单" + walesonc + "次");
 							if(platformType == 2) {
-								//grabSingle(ProDet.busId, null, "isCsb");
+								grabSingle(ProDet.busId, null, "isCsb");
 							} else {
-								//grabSingle(ProDet.busId, "", "", true);
+								grabSingle(ProDet.busId, "", "", true);
 							}
 
 						} else {
 							//wbtn.innerHTML = "子项目自动抢单" + walesonc + "次";
 							setBtnText(wbtn, "子项目抢单" + walesonc + "次");
-							//grabSingle(ProDet.busId);
+							grabSingle(ProDet.busId);
 						}
 
 						walesonc += 1;
@@ -223,12 +223,6 @@ if(platformType > 0) {
 		setInterval("CheckClick()", 100);
 		AddBtn();
 		Initlabel();
-		console.log(nowValid());
 	}
-
-	if(platformType == 2) {
-		setTimeout(initAutoclick, 1000);
-	} else {
-		initAutoclick();
-	}
+	setTimeout(initAutoclick, 1000);
 }
