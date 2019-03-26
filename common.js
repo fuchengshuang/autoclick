@@ -19,7 +19,7 @@ if(platformType > 0) {
 	var exEndTime = 0;
 	var start = "0"; //0正常 1定时2启动
 	//本地时间和服务器 误差值
-	console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
+	//console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
 	var timeErrRange = 500;
 	if(ProDet.reserObj.localTime) {
 		timeErrRange = Util.date.str2Date(ProDet.reserObj.localTime) - new Date().getTime() - 200;
@@ -225,9 +225,5 @@ if(platformType > 0) {
 		Initlabel();
 	}
 
-	if(platformType == 2) {
-		setTimeout(initAutoclick, 1000);
-	} else {
-		initAutoclick();
-	}
+	setTimeout(initAutoclick, 1000);
 }
