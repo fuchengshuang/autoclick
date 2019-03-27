@@ -19,6 +19,7 @@ if(platformType > 0) {
 	var exEndTime = 0;
 	var start = "0"; //0正常 1定时2启动
 	//本地时间和服务器 误差值
+	var timeErrRange = 0;
 	function toExamineTime() {
 		var exBeginT = new Date().getTime();
 		$.ajax({
@@ -32,18 +33,13 @@ if(platformType > 0) {
 				console.log("请求完成时间:" + reT);
 				console.log(data.sysTime2);
 				console.log("本地时间:" + Util.date.getDatetime(null));
-				console.log(Util.date.str2Date(data.sysTime2) - new Date().getTime() + reT);
+				timeErrRange = Util.date.str2Date(data.sysTime2) - new Date().getTime() + reT - 1500;
+				console.log("误差时间:" + timeErrRange);
 			}
 
 		});
 	}
 	toExamineTime();
-	console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
-	var timeErrRange = 500;
-	if(ProDet.reserObj.localTime) {
-		timeErrRange = Util.date.str2Date(ProDet.reserObj.localTime) - new Date().getTime() - 200;
-	}
-
 	function nowValid() {
 		var a = $('.pro-get-button-box a');
 		var nowValid = true;
