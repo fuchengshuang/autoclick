@@ -11,19 +11,7 @@ if(pathName == "/module/agent/project_detail.html") {
 	console.log("---不启动自动抢单---");
 	platformType = 0;
 }
-$.ajax({ 
-        type: "GET", 
-        async: false, 
-        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-      	dataType: "json",
-        url: "http://quan.suning.com/getSysTime.do",
-        success: function(data) {
-			console.log(data.sysTime2);
-			console.log("本地时间:"+Util.date.getDatetime(null));
-			console.log(Util.date.str2Date(data.sysTime2) - new Date().getTime())
-        }
 
-});
 if(platformType > 0) {
 	var walesonc = 0;
 	var allcc = 0;
@@ -31,6 +19,25 @@ if(platformType > 0) {
 	var exEndTime = 0;
 	var start = "0"; //0正常 1定时2启动
 	//本地时间和服务器 误差值
+	function toExamineTime() {
+		var exBeginT = new Date().getTime();
+		$.ajax({
+			type: "GET",
+			async: false,
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			dataType: "json",
+			url: "http://quan.suning.com/getSysTime.do",
+			success: function(data) {
+				var reT = new Date().getTime() - exBeginT;
+				console.log("请求完成时间:" + reT);
+				console.log(data.sysTime2);
+				console.log("本地时间:" + Util.date.getDatetime(null));
+				console.log(Util.date.str2Date(data.sysTime2) - new Date().getTime() + reT);
+			}
+
+		});
+	}
+	toExamineTime();
 	console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
 	var timeErrRange = 500;
 	if(ProDet.reserObj.localTime) {
