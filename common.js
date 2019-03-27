@@ -20,7 +20,7 @@ if(platformType > 0) {
 	var start = "0"; //0正常 1定时2启动
 	//本地时间和服务器 误差值
 	var timeErrRange = 0;
-
+	
 	function toExamineTime() {
 		var exBeginT = new Date().getTime();
 		$.ajax({
@@ -41,7 +41,7 @@ if(platformType > 0) {
 
 		});
 	}
-	toExamineTime();
+	//toExamineTime();
 
 	function nowValid() {
 		var a = $('.pro-get-button-box a');
@@ -157,7 +157,12 @@ if(platformType > 0) {
 						freq = 50
 					};
 					if(arrs.length > 1) {
-						exEndTime = Util.date.str2Date(Util.date.getDate(null) + " " + arrs[1] + ":00");
+						if(arrs[1].split(":").length > 2){
+							exEndTime = Util.date.str2Date(Util.date.getDate(null) + " " + arrs[1]);
+						}else{
+							exEndTime = Util.date.str2Date(Util.date.getDate(null) + " " + arrs[1] + ":00");
+						}
+						
 					}
 					sessionStorage.setItem("freq", freq);
 					sessionStorage.setItem("ClickStart", "1");
