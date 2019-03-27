@@ -20,7 +20,7 @@ if(platformType > 0) {
 	var start = "0"; //0正常 1定时2启动
 	//本地时间和服务器 误差值
 	var timeErrRange = 0;
-
+	
 	function toExamineTime() {
 		var exBeginT = new Date().getTime();
 		$.ajax({
@@ -35,13 +35,13 @@ if(platformType > 0) {
 				console.log("请求完成时间:" + reT);
 				console.log(data.sysTime2);
 				console.log("本地时间:" + Util.date.getDatetime(null));
-				timeErrRange = Util.date.str2Date(data.sysTime2) - Util.date.str2Date(Util.date.getDatetime(null)) + reT - 1800;
+				timeErrRange = Util.date.str2Date(data.sysTime2) - curT + reT - 1800;
 				console.log("误差时间:" + timeErrRange);
 			}
 
 		});
 	}
-	toExamineTime();
+	//toExamineTime();
 
 	function nowValid() {
 		var a = $('.pro-get-button-box a');
@@ -157,7 +157,12 @@ if(platformType > 0) {
 						freq = 50
 					};
 					if(arrs.length > 1) {
-						exEndTime = Util.date.str2Date(Util.date.getDate(null) + " " + arrs[1] + ":00");
+						if(arrs[1].split(":").length > 2){
+							exEndTime = Util.date.str2Date(Util.date.getDate(null) + " " + arrs[1]);
+						}else{
+							exEndTime = Util.date.str2Date(Util.date.getDate(null) + " " + arrs[1] + ":00");
+						}
+						
 					}
 					sessionStorage.setItem("freq", freq);
 					sessionStorage.setItem("ClickStart", "1");
