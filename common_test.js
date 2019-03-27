@@ -29,11 +29,12 @@ if(platformType > 0) {
 			dataType: "json",
 			url: "http://quan.suning.com/getSysTime.do",
 			success: function(data) {
-				var reT = new Date().getTime() - exBeginT;
+				var curT = new Date().getTime();
+				var reT = curT - exBeginT;
 				console.log("请求完成时间:" + reT);
 				console.log(data.sysTime2);
 				console.log("本地时间:" + Util.date.getDatetime(null));
-				timeErrRange = Util.date.str2Date(data.sysTime2) - + reT - 1800;
+				timeErrRange = Util.date.str2Date(data.sysTime2) - curT + reT - 1800;
 				console.log("误差时间:" + timeErrRange);
 			}
 
@@ -60,8 +61,6 @@ if(platformType > 0) {
 		return new Date().getTime() + timeErrRange;
 	}
 
-	console.log("误差时间:" + timeErrRange + ",curT:" + getCurTime());
-
 	function setBtnText(btn, text) {
 		if(btn != null) {
 			btn.value = text;
@@ -77,7 +76,7 @@ if(platformType > 0) {
 			return 0;
 		}
 		var spareSec = exEndTime - getCurTime();
-		console.log("开始抢单时间:" + exEndTime + ",倒计时:" + spareSec);
+		//console.log("开始抢单时间:" + exEndTime + ",倒计时:" + spareSec);
 		return spareSec;
 
 	}
