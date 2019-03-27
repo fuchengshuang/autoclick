@@ -11,7 +11,19 @@ if(pathName == "/module/agent/project_detail.html") {
 	console.log("---不启动自动抢单---");
 	platformType = 0;
 }
+$.ajax({ 
+        type: "GET", 
+        async: false, 
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+      	dataType: "json",
+        url: "http://quan.suning.com/getSysTime.do",
+        success: function(data) {
+			console.log(data.sysTime2);
+			console.log("本地时间:"+Util.date.getDatetime(null));
+			console.log(Util.date.str2Date(data.sysTime2) - new Date().getTime())
+        }
 
+});
 if(platformType > 0) {
 	var walesonc = 0;
 	var allcc = 0;
