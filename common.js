@@ -19,11 +19,29 @@ if(platformType > 0) {
 	var exEndTime = 0;
 	var start = "0"; //0正常 1定时2启动
 	//本地时间和服务器 误差值
-	console.log("倒计时(毫秒):" + ProDet.reserObj.spareSec + ",服务器时间:" + ProDet.reserObj.localTime + "本地时间:" + Util.date.getDatetimes(null) + ",发布时间:" + ProDet.reserObj.releaseTime + ",预备时间(分):" + ProDet.reserObj.reserveTime);
-	var timeErrRange = 500;
-	if(ProDet.reserObj.localTime) {
-		timeErrRange = Util.date.str2Date(ProDet.reserObj.localTime) - new Date().getTime() - 200;
+	var timeErrRange = 0;
+
+	function toExamineTime() {
+		var exBeginT = new Date().getTime();
+		$.ajax({
+			type: "GET",
+			async: false,
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			dataType: "json",
+			url: "http://quan.suning.com/getSysTime.do",
+			success: function(data) {
+				var curT = new Date().getTime();
+				var reT = curT - exBeginT;
+				console.log("请求完成时间:" + reT);
+				console.log(data.sysTime2);
+				console.log("本地时间:" + Util.date.getDatetime(null));
+				timeErrRange = Util.date.str2Date(data.sysTime2) - curT + reT - 1800;
+				console.log("误差时间:" + timeErrRange);
+			}
+
+		});
 	}
+	toExamineTime();
 
 	function nowValid() {
 		var a = $('.pro-get-button-box a');
@@ -45,8 +63,6 @@ if(platformType > 0) {
 		return new Date().getTime() + timeErrRange;
 	}
 
-	console.log("误差时间:" + timeErrRange + ",curT:" + getCurTime());
-
 	function setBtnText(btn, text) {
 		if(btn != null) {
 			btn.value = text;
@@ -62,7 +78,6 @@ if(platformType > 0) {
 			return 0;
 		}
 		var spareSec = exEndTime - getCurTime();
-		//console.log("开始抢单时间:" + exEndTime + ",倒计时:" + spareSec);
 		return spareSec;
 
 	}
@@ -71,10 +86,13 @@ if(platformType > 0) {
 	function exTimeCountDown() {
 		start = sessionStorage.getItem("ClickStart");
 		if(start == 1) {
-			var totalrRmain = exCompareTime();
+			var totalrRmain = exCompareTime() - 500;
+			//console.log("倒计时:" +totalrRmain);
 			// 如果已经可以抢单(小于1秒抢单)
-			if(totalrRmain < 1000) {
+			if(totalrRmain <= 0) {
 				placeOrder();
+			} else if(totalrRmain < 1000) {
+				setTimeout(exTimeCountDown, totalrRmain);
 			} else {
 				setTimeout(exTimeCountDown, 1000);
 				setBtnText(document.getElementById("waleson_auto_click"), ProDet.secsToHMS(totalrRmain));
@@ -124,7 +142,6 @@ if(platformType > 0) {
 			start = sessionStorage.getItem("ClickStart");
 			if(start == "2" || start == "1") {
 				sessionStorage.setItem("ClickStart", "0");
-				//walesonAddBtn.innerHTML = "已停止自动抢单";
 				setBtnText(walesonAddBtn, "已停止自动抢单");
 			} else {
 				ccc = prompt("频率(秒),抢单时间", "1");
@@ -143,7 +160,6 @@ if(platformType > 0) {
 						exEndTime = Util.date.str2Date(Util.date.getDate(null) + " " + arrs[1] + ":00");
 					}
 					sessionStorage.setItem("freq", freq);
-					//walesonAddBtn.innerHTML = "已开启自动抢单";
 					sessionStorage.setItem("ClickStart", "1");
 					exTimeCountDown();
 				}
@@ -166,7 +182,6 @@ if(platformType > 0) {
 					allcc += 100;
 					if(allcc >= freq) {
 						if($(".J_grab_single").hasClass("j-ishost")) {
-							//wbtn.innerHTML = "主项目自动抢单" + walesonc + "次";
 							setBtnText(wbtn, "主项目抢单" + walesonc + "次");
 							if(platformType == 2) {
 								grabSingle(ProDet.busId, null, "isCsb");
@@ -175,7 +190,6 @@ if(platformType > 0) {
 							}
 
 						} else {
-							//wbtn.innerHTML = "子项目自动抢单" + walesonc + "次";
 							setBtnText(wbtn, "子项目抢单" + walesonc + "次");
 							grabSingle(ProDet.busId);
 						}
@@ -224,6 +238,5 @@ if(platformType > 0) {
 		AddBtn();
 		Initlabel();
 	}
-
 	setTimeout(initAutoclick, 1000);
 }
