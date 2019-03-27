@@ -33,7 +33,7 @@ if(platformType > 0) {
 				console.log("请求完成时间:" + reT);
 				console.log(data.sysTime2);
 				console.log("本地时间:" + Util.date.getDatetime(null));
-				timeErrRange = Util.date.str2Date(data.sysTime2) - new Date().getTime() + reT - 1800;
+				timeErrRange = Util.date.str2Date(data.sysTime2) - + reT - 1800;
 				console.log("误差时间:" + timeErrRange);
 			}
 
