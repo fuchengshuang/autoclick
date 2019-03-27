@@ -76,7 +76,6 @@ if(platformType > 0) {
 			return 0;
 		}
 		var spareSec = exEndTime - getCurTime();
-		//console.log("开始抢单时间:" + exEndTime + ",倒计时:" + spareSec);
 		return spareSec;
 
 	}
@@ -85,11 +84,14 @@ if(platformType > 0) {
 	function exTimeCountDown() {
 		start = sessionStorage.getItem("ClickStart");
 		if(start == 1) {
-			var totalrRmain = exCompareTime();
+			var totalrRmain = exCompareTime()-500;
+			console.log("倒计时:" +totalrRmain);
 			// 如果已经可以抢单(小于1秒抢单)
-			if(totalrRmain < 1000) {
+			if(totalrRmain <= 0) {
 				placeOrder();
-			} else {
+			}else if(totalrRmain < 1000){
+				setTimeout(exTimeCountDown, totalrRmain);
+			}else {
 				setTimeout(exTimeCountDown, 1000);
 				setBtnText(document.getElementById("waleson_auto_click"), ProDet.secsToHMS(totalrRmain));
 			}
@@ -183,15 +185,15 @@ if(platformType > 0) {
 							//wbtn.innerHTML = "主项目自动抢单" + walesonc + "次";
 							setBtnText(wbtn, "主项目抢单" + walesonc + "次");
 							if(platformType == 2) {
-								grabSingle(ProDet.busId, null, "isCsb");
+								//grabSingle(ProDet.busId, null, "isCsb");
 							} else {
-								grabSingle(ProDet.busId, "", "", true);
+								//grabSingle(ProDet.busId, "", "", true);
 							}
 
 						} else {
 							//wbtn.innerHTML = "子项目自动抢单" + walesonc + "次";
 							setBtnText(wbtn, "子项目抢单" + walesonc + "次");
-							grabSingle(ProDet.busId);
+							//grabSingle(ProDet.busId);
 						}
 
 						walesonc += 1;
