@@ -20,6 +20,7 @@ if(platformType > 0) {
 	var start = "0"; //0正常 1定时2启动
 	//本地时间和服务器 误差值
 	var timeErrRange = 0;
+
 	function toExamineTime() {
 		var exBeginT = new Date().getTime();
 		$.ajax({
@@ -34,13 +35,14 @@ if(platformType > 0) {
 				console.log("请求完成时间:" + reT);
 				console.log(data.sysTime2);
 				console.log("本地时间:" + Util.date.getDatetime(null));
-				timeErrRange = Util.date.str2Date(data.sysTime2) - curT + reT - 1800;
+				timeErrRange = Util.date.str2Date(data.sysTime2) - Util.date.str2Date(Util.date.getDatetime(null)) + reT - 1800;
 				console.log("误差时间:" + timeErrRange);
 			}
 
 		});
 	}
 	toExamineTime();
+
 	function nowValid() {
 		var a = $('.pro-get-button-box a');
 		var nowValid = true;
@@ -84,14 +86,14 @@ if(platformType > 0) {
 	function exTimeCountDown() {
 		start = sessionStorage.getItem("ClickStart");
 		if(start == 1) {
-			var totalrRmain = exCompareTime()-500;
-			console.log("倒计时:" +totalrRmain);
+			var totalrRmain = exCompareTime() - 500;
+			//console.log("倒计时:" +totalrRmain);
 			// 如果已经可以抢单(小于1秒抢单)
 			if(totalrRmain <= 0) {
 				placeOrder();
-			}else if(totalrRmain < 1000){
+			} else if(totalrRmain < 1000) {
 				setTimeout(exTimeCountDown, totalrRmain);
-			}else {
+			} else {
 				setTimeout(exTimeCountDown, 1000);
 				setBtnText(document.getElementById("waleson_auto_click"), ProDet.secsToHMS(totalrRmain));
 			}
@@ -140,7 +142,6 @@ if(platformType > 0) {
 			start = sessionStorage.getItem("ClickStart");
 			if(start == "2" || start == "1") {
 				sessionStorage.setItem("ClickStart", "0");
-				//walesonAddBtn.innerHTML = "已停止自动抢单";
 				setBtnText(walesonAddBtn, "已停止自动抢单");
 			} else {
 				ccc = prompt("频率(秒),抢单时间", "1");
@@ -159,7 +160,6 @@ if(platformType > 0) {
 						exEndTime = Util.date.str2Date(Util.date.getDate(null) + " " + arrs[1] + ":00");
 					}
 					sessionStorage.setItem("freq", freq);
-					//walesonAddBtn.innerHTML = "已开启自动抢单";
 					sessionStorage.setItem("ClickStart", "1");
 					exTimeCountDown();
 				}
@@ -182,18 +182,16 @@ if(platformType > 0) {
 					allcc += 100;
 					if(allcc >= freq) {
 						if($(".J_grab_single").hasClass("j-ishost")) {
-							//wbtn.innerHTML = "主项目自动抢单" + walesonc + "次";
 							setBtnText(wbtn, "主项目抢单" + walesonc + "次");
 							if(platformType == 2) {
-								//grabSingle(ProDet.busId, null, "isCsb");
+								grabSingle(ProDet.busId, null, "isCsb");
 							} else {
-								//grabSingle(ProDet.busId, "", "", true);
+								grabSingle(ProDet.busId, "", "", true);
 							}
 
 						} else {
-							//wbtn.innerHTML = "子项目自动抢单" + walesonc + "次";
 							setBtnText(wbtn, "子项目抢单" + walesonc + "次");
-							//grabSingle(ProDet.busId);
+							grabSingle(ProDet.busId);
 						}
 
 						walesonc += 1;
