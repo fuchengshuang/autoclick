@@ -86,13 +86,13 @@ if(platformType > 0) {
 	function exTimeCountDown() {
 		start = sessionStorage.getItem("ClickStart");
 		if(start == 1) {
-			var totalrRmain = exCompareTime() - 500;
+			var totalrRmain = exCompareTime();
 			//console.log("倒计时:" +totalrRmain);
 			// 如果已经可以抢单(小于1秒抢单)
 			if(totalrRmain <= 0) {
 				placeOrder();
 			} else if(totalrRmain < 1000) {
-				setTimeout(exTimeCountDown, totalrRmain);
+				setTimeout(placeOrder, totalrRmain);
 			} else {
 				setTimeout(exTimeCountDown, 1000);
 				setBtnText(document.getElementById("waleson_auto_click"), ProDet.secsToHMS(totalrRmain));
